@@ -1,0 +1,7 @@
+local.sh
+db/*
+!db/.gitkeep
+ops
+node_modules
+.env
+.tmp

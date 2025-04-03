@@ -1,0 +1,10 @@
+{
+  "deno.enable": true,
+  "editor.tabSize": 2,
+  "editor.formatOnPaste": true,
+  "editor.defaultFormatter": "denoland.vscode-deno",
+  "[typescript]": { "editor.defaultFormatter": "denoland.vscode-deno" },
+  "html.customData": [
+    "./node_modules/@shoelace-style/shoelace/dist/vscode.html-custom-data.json"
+  ]
+}
