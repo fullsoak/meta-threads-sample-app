@@ -6,37 +6,46 @@
  */
 
 import { join } from "path";
+import { DatabaseSync } from "node:sqlite";
 
-type SimpleDB = Record<string, unknown>;
+const dbPath = join(import.meta.dirname || "", "../../db/sqlite.db");
+const db = new DatabaseSync(dbPath);
 
-let simpleDb: SimpleDB = {};
-
-const simpleDbJsonPath = join(
-  import.meta.dirname || "",
-  "../../db/simple.json",
-);
-
-const initSimpleDb = async (): Promise<SimpleDB> => {
-  try {
-    await Deno.lstat(simpleDbJsonPath);
-    simpleDb = JSON.parse(await Deno.readTextFile(simpleDbJsonPath));
-  } catch (err) {
-    if (!(err instanceof Deno.errors.NotFound)) {
-      throw err;
-    }
-    await writeDb(simpleDb);
-  }
-  return simpleDb;
+export type UserEntity = {
+  userId: string;
+  accessToken: string;
 };
 
-const writeDb = async (wholeDb: SimpleDB): Promise<void> => {
-  await Deno.writeTextFile(simpleDbJsonPath, JSON.stringify(wholeDb));
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    userId TEXT PRIMARY KEY,
+    accessToken TEXT
+  )
+`);
+
+const getUserEntry = (userId: string): UserEntity => {
+  return db.prepare("SELECT userId, accessToken FROM users WHERE userId = ?").get(
+    userId,
+  ) as UserEntity;
 };
 
-await initSimpleDb();
+const insertOrReplaceUserEntry = (userId: string, accessToken: string) => {
+  db.prepare(
+    "INSERT OR REPLACE INTO users (userId, accessToken) VALUES (?, ?)",
+  ).run(userId, accessToken);
+};
 
 const isLoggedIn = (userId?: string): boolean => {
-  return simpleDb[userId!] != null;
+  if (!userId) {
+    return false;
+  }
+  try {
+    const user = getUserEntry(userId);
+    return user != null;
+  } catch (error) {
+    console.error("Error checking login status:", error);
+    return false;
+  }
 };
 
-export { isLoggedIn, simpleDb, writeDb };
+export { db, getUserEntry, insertOrReplaceUserEntry, isLoggedIn };

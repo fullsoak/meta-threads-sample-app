@@ -22,8 +22,8 @@ they are:
 - [ ] making calls to other Threads APIs
 - [ ] serving static assets from the `public` directory (workaround: use NginX
       or CDN, also as recommended on PROD)
-- [ ] using a real database instead of the current text-based solution (prone to
-      concurrency risks)
+- [ ] using a more scalable database approach than `node:sqlite`'s
+      `DatabaseSync`
 - [ ] test cases
 - [ ] cleaned up examples for using the
       [Shoelace UI library](https://shoelace.style/)
@@ -46,11 +46,10 @@ production. Dưới đây là các hạn mục tiêu biểu và hiện trạng c
 
 - [x] gọi đến các Threads API: `/mentions` và `/reply_to_id`
 - [ ] gọi đến các Threads API khác
-- [ ] serve các tâp tin từ thư mục `public` (thay vào đó ta có thể dùng NginX
+- [ ] serve các tập tin từ thư mục `public` (thay vào đó ta có thể dùng NginX
       hay CDN, và đây cũng là cách được khuyến cáo ở môi trường production)
-- [ ] sử dụng CSDL thật, thay vì viết & đọc file json như hiện tại (vì hiển
-      nhiên cách này không phù hợp xử lý đa luồn, vd cho nhiều người sử dụng
-      đồng thời)
+- [ ] tương tác với CSDL qua các API phù hợp sử dụng đa luồn hơn thay vì dùng
+      `DatabaseSync` của `node:sqlite`
 - [ ] code kiểm thử (test cases)
 - [ ] cải thiện ví dụ sử dụng [thư viện UI Shoelace](https://shoelace.style/)
 

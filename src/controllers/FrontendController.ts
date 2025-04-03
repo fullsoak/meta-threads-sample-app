@@ -21,11 +21,11 @@ const getThreadsLoginUrl = (): string => {
 };
 
 const headContent = makeHat({
-  title: "Red Threads :: Thread Roller",
+  title: "Meta Threads Sample App :: FullSoak",
   links: [{
     rel: "stylesheet",
     href:
-      "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/themes/light.css",
+      "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css",
   }, {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=DM%20Mono",
@@ -33,7 +33,7 @@ const headContent = makeHat({
   scripts: [{
     type: "module",
     src:
-      "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/shoelace-autoloader.js",
+      "https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js",
   }],
 });
 

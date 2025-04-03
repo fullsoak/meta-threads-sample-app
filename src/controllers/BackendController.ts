@@ -9,7 +9,7 @@ import {
 } from "fullsoak";
 import { exchangeCodeForShortlivedToken } from "../services/exchangeCodeForShortLivedToken.ts";
 
-import { simpleDb, writeDb } from "../utils/db.ts";
+import { getUserEntry, insertOrReplaceUserEntry } from "../utils/db.ts";
 import { getThreadsMentions } from "../services/getThreadsMentions.ts";
 import { exchangeShortLivedForLonglivedToken } from "../services/exchangeShortLivedForLongLivedToken.ts";
 import { replyThreadsPost } from "../services/replyThreadsPost.ts";
@@ -37,8 +37,7 @@ export class BackendController {
       shortLivedTokenResp.access_token,
     );
     // console.log({ longLivedTokenResp });
-    simpleDb[userId] = longLivedTokenResp.access_token;
-    await writeDb(simpleDb);
+    insertOrReplaceUserEntry(String(userId), longLivedTokenResp.access_token);
     await ctx.cookies.set("auth", userId, { httpOnly: true });
     ctx.response.redirect("/");
   }
@@ -53,10 +52,17 @@ export class BackendController {
   async getMentions(ctx: Context) {
     const { userId } = ctx.app.state;
     if (!userId) return ctx.throw(401);
+    const user = getUserEntry(userId);
+    if (!user) {
+      return ctx.throw(
+        404,
+        JSON.stringify({ error: `user ${userId} not found` }),
+      );
+    }
     const mentions = await getThreadsMentions(
       userId,
       null,
-      String(simpleDb[userId]),
+      user.accessToken,
     );
     return mentions.data;
   }
@@ -68,7 +74,14 @@ export class BackendController {
     if (!userId) return ctx.throw(401);
 
     const { replyToId, text } = ReplyReqBody.parse(body);
+    const user = getUserEntry(userId);
+    if (!user) {
+      return ctx.throw(
+        404,
+        JSON.stringify({ error: `user ${userId} not found` }),
+      );
+    }
 
-    return await replyThreadsPost(replyToId, text, String(simpleDb[userId]));
+    return await replyThreadsPost(replyToId, text, user.accessToken);
   }
 }

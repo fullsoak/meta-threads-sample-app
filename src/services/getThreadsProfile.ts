@@ -1,4 +1,4 @@
-import { simpleDb } from "../utils/db.ts";
+import { getUserEntry } from "../utils/db.ts";
 
 export type ThreadsProfile = {
   id: string;
@@ -10,7 +10,9 @@ export type ThreadsProfile = {
 export const getThreadProfile = async (
   userId?: string,
 ): Promise<ThreadsProfile | undefined> => {
-  const token = simpleDb[userId!];
+  if (!userId) return;
+  const user = getUserEntry(userId);
+  const token = user ? user.accessToken : null;
   if (!token) return;
   const resp = await fetch(
     "https://graph.threads.net/me?fields=id,username,name,threads_profile_picture_url,threads_biography",
