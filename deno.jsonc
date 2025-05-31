@@ -3,7 +3,8 @@
     "fullsoak": "jsr:@fullsoak/fullsoak@^0.17.0",
     "preact": "npm:preact@10.26.4",
     "path": "jsr:@std/path@1.0.8",
-    "@shoelace-style/shoelace": "npm:@shoelace-style/shoelace@2.20.0"
+    "@shoelace-style/shoelace": "npm:@shoelace-style/shoelace@2.20.1",
+    "superoak": "https://deno.land/x/superoak@4.8.1/mod.ts"
   },
   "nodeModulesDir": "auto",
   "compilerOptions": {
