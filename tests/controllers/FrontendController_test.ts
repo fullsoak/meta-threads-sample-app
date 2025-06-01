@@ -10,3 +10,9 @@ Deno.test("GET / should response with expected HTML content", async (t) => {
   const resp = await request.get("/").expect(200);
   await assertSnapshot(t, resp.text);
 });
+
+Deno.test("GET /unknown-route should return 404", async (t) => {
+  const request = await superoak(app);
+  const resp = await request.get("/unknown-route").expect(404);
+  await assertSnapshot(t, resp.text);
+});

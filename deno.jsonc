@@ -14,6 +14,8 @@
   },
   "tasks": {
     "dev": "deno run -A --watch src/main.ts",
-    "start": "deno run -W=$PWD/db/simple.json -R=$PWD,/usr/bin/ldd -E=DEBUG,NODE_ENV,PREACT_DEVTOOLS,HOME,DENO_DIR,HTTP_PROXY,http_proxy,NAPI_RS_FORCE_WASI,SWC_BINARY_PATH,THREADS_APP_ID,THREADS_APP_SECRET,THREADS_AUTH_CODE_REDIRECT_URI,THREADS_APP_AUTH_SCOPE -N=0.0.0.0,graph.threads.net,jsr.io --allow-sys=cpus --allow-ffi=$PWD/node_modules/.deno/@swc+core-linux-x64-gnu@1.11.13 src/main.ts"
+    "start": "deno run -W=$PWD/db/simple.json -R=$PWD,/usr/bin/ldd -E=DEBUG,NODE_ENV,PREACT_DEVTOOLS,HOME,DENO_DIR,HTTP_PROXY,http_proxy,NAPI_RS_FORCE_WASI,SWC_BINARY_PATH,THREADS_APP_ID,THREADS_APP_SECRET,THREADS_AUTH_CODE_REDIRECT_URI,THREADS_APP_AUTH_SCOPE -N=0.0.0.0,graph.threads.net,jsr.io --allow-sys=cpus --allow-ffi=$PWD/node_modules/.deno/@swc+core-linux-x64-gnu@1.11.13 src/main.ts",
+    "test": "deno test -A",
+    "test-update": "deno task test -- --update"
   }
 }
